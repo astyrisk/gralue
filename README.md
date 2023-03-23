@@ -6,7 +6,7 @@
 ## run it locally! 
 1. clone source code
 ```
-git clone https://github.com/Marguesto/gralue.git
+git clone https://github.com/Marguesto/gralue.git && cd ./gralue
 ```
 2. install the dependecies
 ```
