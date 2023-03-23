@@ -1,6 +1,6 @@
 # gralue
 
-## try it using a hosted instance!
+## try a hosted version!
 [Vercel instance](https://gralue.vercel.app/)
 
 ## run it locally! 
