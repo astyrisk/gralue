@@ -31,5 +31,8 @@
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.13.1",
     "wepack-cli": "^0.0.1-security"
+  },
+  "dependencies": {
+    "vercel": "^28.18.3"
   }
 }
