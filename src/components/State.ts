@@ -10,7 +10,7 @@ class State  {
 
   update: (time: any, keys: any) => void;
 
-  constructor(level: Level, actors: Array<any>, status: any) {
+  constructor(level: Level, actors: Array<any>, status: string) {
     this.level = level;
     this.actors = actors;
     this.status = status;
@@ -33,8 +33,10 @@ State.prototype.update = function(time, keys) {
     return newState;
 
   let player = newState.player;
-  if (this.level.touches(player.pos, player.size, "lava")) 
+
+  if (this.level.touches(player.pos, player.size, "lava"))  {
     return new State(this.level, actors, "lost");
+  }
 
   for (let actor of actors) { 
     if (actor != player && overlap(actor, player)) {

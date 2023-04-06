@@ -3,6 +3,10 @@ import State from "./components/State";
 import CanvasDisplay from "./components/CanvasDisplay";
 import GAME_LEVEL from "./media/level"
 
+
+const levelHeader = document.querySelector(".level");
+const lifeHeader = document.querySelector(".lifes");
+
 function runAnimation(frameFunc: Function) { 
     let lastTime: number | null = null;
     function frame(time: number | null) { 
@@ -83,15 +87,23 @@ function trackKeys(keys: any) {
 }
 
 async function runGame(plans: Array<string>, Display: CanvasDisplay | any) {
-    let MAX = 3, level = 0;
+    let MAX = 2, level = 0;
     while (level < plans.length) { 
         let status = await runLevel(new Level(plans[level]), Display)
-        if (status == 'won') level++;
-        else if (MAX > 0) console.log("You have ", --MAX, " tries left!");
+        if (status == 'won') {
+            level++;
+            levelHeader.innerHTML = `<p>level ${level + 1} </p>`
+        }
+        else if (MAX > 0) {
+            --MAX;
+            lifeHeader.innerHTML =  MAX == 1 ? `<p>${MAX} try left</p>` : `<p>${MAX} tries left</p>`;
+        }
         else {
             console.log("GAME OVER");
             level = 0;
-            MAX = 3;
+            MAX = 2;
+            lifeHeader.innerHTML =  MAX == 1 ? `<p>${MAX} try left</p>` : `<p>${MAX} tries left</p>`;
+            levelHeader.innerHTML = `<p>level ${level + 1} </p>`
         }
     }
     console.log("YOU HAVE WON!");
