@@ -1,5 +1,68 @@
-/* its working ! */
-h1 { 
-    background-color: blue;
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;1,200&family=Ubuntu:wght@300&display=swap');
+html, h1 {
+    margin-top: 3em;
+    display: flex;
+    justify-content: center;
+    background-color: #2e3440;
+    color: white;
+    font-family:Raleway ;
+    font-size: bold;
+}
 
+.background {
+    background: rgb(52, 166, 251);
+    table-layout: fixed;
+    border-spacing: 0;
+}
+
+
+canvas {
+    border: solid;
+--    border-color: #bf40bf;
+    border-color: white;
+    border-radius: 1px;
+    border-width: 2px;
+}
+
+.background td {
+    padding: 0; 
+}
+
+.lava { 
+    background: rgb(255, 100, 10);
+}
+
+.wall { 
+    background: white;
+}
+
+.actor {
+    position: absolute;
+}
+
+.coin {
+    background: rgb(241, 229, 89);
+}
+
+.player { 
+    background: rgb(64, 64, 64);
+}
+
+.lost .player {
+    background: rgb(160, 64, 64);
+}
+
+.won .player{
+    box-shadow: -4px -7px 8px white, 4px 07px 8px white;
+}
+
+.game {
+    overflow: hidden;
+    max-width: 600px;
+    max-height: 450px;
+    position: relative;
+}
+
+.monster {
+    background: purple;
 }

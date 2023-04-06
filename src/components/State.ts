@@ -3,7 +3,6 @@ import { Actor } from "../types";
 import { overlap } from "../helpers";
 
 
-//DONE left-bug rechecked
 class State  {
   level: Level;
   actors: Array<Actor> | any;
