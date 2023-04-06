@@ -5,7 +5,7 @@ html, h1 {
     justify-content: center;
     background-color: #2e3440;
     color: white;
-    font-family:ubuntu;
+    font-family: ubuntu;
     font-size: bold;
 }
 
@@ -13,6 +13,9 @@ html, h1 {
     background: rgb(52, 166, 251);
     table-layout: fixed;
     border-spacing: 0;
+}
+
+canvas {
 }
 
 .stat {
@@ -28,13 +31,9 @@ html, h1 {
     margin-left: 10em;
 }
 
-canvas {
-}
-
 .background td {
     padding: 0; 
 }
-
 
 .lost .player {
     background: rgb(160, 64, 64);

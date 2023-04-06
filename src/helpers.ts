@@ -3,7 +3,6 @@ import { Actor } from "./types";
 
 const scale = 20;
 
-//TODO check
 function flipHorizontally(context: CanvasRenderingContext2D , around: number | any) {
   context.translate(around, 0);
   context.scale(-1, 1);

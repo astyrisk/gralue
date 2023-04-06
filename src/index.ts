@@ -2,10 +2,12 @@ import Level from "./Level";
 import State from "./components/State";
 import CanvasDisplay from "./components/CanvasDisplay";
 import GAME_LEVEL from "./media/level"
+import { deepStrictEqual } from "assert";
 
 
 const levelHeader = document.querySelector(".level");
 const lifeHeader = document.querySelector(".lifes");
+
 
 function runAnimation(frameFunc: Function) { 
     let lastTime: number | null = null;
@@ -22,8 +24,10 @@ function runAnimation(frameFunc: Function) {
 }
 
 
-function runLevel(level: Level, Display: CanvasDisplay | any) {
+function runLevel(level: Level, Display: CanvasDisplay | any, levelNumber: number, triesNumber: number) {
     let display = new Display(document.body, level);
+    display.level = levelNumber;
+    display.tries = triesNumber;
     let state: State | any = State.start(level)  ;
     let ending: number = 1;
     let running: string = "yes";
@@ -88,22 +92,18 @@ function trackKeys(keys: any) {
 
 async function runGame(plans: Array<string>, Display: CanvasDisplay | any) {
     let MAX = 2, level = 0;
-    while (level < plans.length) { 
-        let status = await runLevel(new Level(plans[level]), Display)
+    while (level < plans.length) {
+        let status = await runLevel(new Level(plans[level]), Display, level, MAX);
         if (status == 'won') {
             level++;
-            levelHeader.innerHTML = `<p>level ${level + 1} </p>`
         }
         else if (MAX > 0) {
             --MAX;
-            lifeHeader.innerHTML =  MAX == 1 ? `<p>${MAX} try left</p>` : `<p>${MAX} tries left</p>`;
         }
         else {
             console.log("GAME OVER");
             level = 0;
             MAX = 2;
-            lifeHeader.innerHTML =  MAX == 1 ? `<p>${MAX} try left</p>` : `<p>${MAX} tries left</p>`;
-            levelHeader.innerHTML = `<p>level ${level + 1} </p>`
         }
     }
     console.log("YOU HAVE WON!");
