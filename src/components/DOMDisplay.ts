@@ -34,7 +34,6 @@ DOMDisplay.prototype.syncState = function(state: State) {
     this.scrollPlayerIntoView(state);
 };
 
-//TODO CHECK
 DOMDisplay.prototype.scrollPlayerIntoView = function(state: State) {
     let width = this.dom.clientWidth;
     let height = this.dom.clientHeight;

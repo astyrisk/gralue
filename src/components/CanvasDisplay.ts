@@ -8,8 +8,10 @@ const SCALE: number = 20;
 let playerXOverlap = 3.9;
 let otherSprites: HTMLImageElement = document.createElement("img"); 
 let playerSprite: HTMLImageElement = document.createElement("img");
-playerSprite.src ="./player-4.png"
-otherSprites.src = "./sprites-2.png";
+let heartSprite:HTMLImageElement = document.createElement("img");
+playerSprite.src ="./player.png"
+otherSprites.src = "./sprites.png";
+heartSprite.src = "./heart.png";
 
 class CanvasDisplay  {
     canvas: HTMLCanvasElement;
@@ -17,18 +19,24 @@ class CanvasDisplay  {
     flipPlayer: boolean = false;
     viewport: any; //TODO write the interface
 
+    level: number = 1;
+    tries: number = 2;
+
     syncState: (state: State) => void;
     updateViewport: (state: State) => void;
-    clearDisplay: (status: any) => void; //remove status
+//    clearDisplay: (status: any) => void; //remove status
+
+    clearLevel: (status: string) => void;
 
     drawBackground: (level: Level) => void;
     drawPlayer: (player: Player, x: number, y: number, width: number, height: number) => void;
     drawActors: (actors: Actor| any)  => void;
+    drawStat: () => void;
 
     constructor(parent: HTMLElement | any, level: Level) {
         this.canvas = document.createElement("canvas");
         this.canvas.width = Math.min(800, level.width * SCALE );
-        this.canvas.height = Math.min(650, level.height * SCALE );
+        this.canvas.height = Math.min(560, level.height * SCALE );
         parent.appendChild(this.canvas);
         
         this.cx = this.canvas.getContext("2d");
@@ -47,9 +55,31 @@ class CanvasDisplay  {
 
 CanvasDisplay.prototype.syncState = function(state: State) {
     this.updateViewport(state);
-    this.clearDisplay(state.status);
-    this.drawBackground(state.level);
-    this.drawActors(state.actors);
+
+    this.cx.fillStyle = "#545e78";
+    if (state.status == "playing") {
+        this.cx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.drawBackground(state.level);
+        this.drawActors(state.actors);
+        this.drawStat();
+    } else {
+        this.clearLevel(state.status);
+    }
+//    this.clearDisplay(state.status);
+
+//     if (state.status == "lost") {
+//         this.cx.fillStyle = "#bf40bf";
+//         this.cx.globalAlpha = 0.05;
+//         this.cx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+//         this.cx.globalAlpha = 1;
+//
+//
+//     } else {
+//    this.clearDisplay(state.status);
+//         this.drawBackground(state.level);
+//         this.drawActors(state.actors);
+//     }
+
 };
 
 CanvasDisplay.prototype.updateViewport = function(state: State) {
@@ -67,15 +97,47 @@ CanvasDisplay.prototype.updateViewport = function(state: State) {
         view.top = Math.min(center.y + margin - view.height, state.level.height - view.height);
 };
 
-//TODO  LOST not working
-CanvasDisplay.prototype.clearDisplay = function(status: string) { 
-    if (status == "won") 
-        this.cx.fillStyle = "rgb(68, 191, 255)";
-    else if (status == "lost") 
-        this.cx.fillStyle = "rgb(44, 136, 214)";
+//TODO  not working
+// CanvasDisplay.prototype.clearDisplay = function(status: string) {
+//     if (status == "won")
+//        this.cx.fillStyle = "rgb(68, 191, 255)";
+//     else if (status == "lost")
+//        this.cx.fillStyle = "rgb(44, 136, 214)";
+//
+//     this.cx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+// };
 
+CanvasDisplay.prototype.clearLevel = function(status: string) {
+
+    if (status == "lost" && this.tries == 0) {
+        this.cx.fillStyle = "white";
+        this.cx.font = "70px serif";
+        this.cx.fillText("GAME OVER", 160, 180);
+    }  else if (status == "won" && this.level == 2) {
+        this.cx.fillStyle = "white";
+        this.cx.font = "90px serif";
+        this.cx.fillText("YOU WON", 160, 180);
+    }
+
+    if (status == "lost") this.cx.fillStyle = "#bf40bf";
+    else this.cx.fillStyle = "#2e3440";
+
+    this.cx.globalAlpha = 0.07;
     this.cx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-};
+    this.cx.globalAlpha = 1;
+}
+
+
+CanvasDisplay.prototype.drawStat = function() {
+    this.cx.fillStyle = "#2e3440";
+    this.cx.font = "20px serif";
+    this.cx.fillText(`LEVEL ${this.level + 1}`, 60, 35);
+    for (let i = 0; i <= this.tries; i++) {
+        this.cx.drawImage(heartSprite, 630 + (i * 37), 20, 28, 28);
+
+    }
+}
+
 
 CanvasDisplay.prototype.drawPlayer = function(player: Player, x: number, y: number, width: number, height: number) {
   width += playerXOverlap * 2;
@@ -97,7 +159,7 @@ CanvasDisplay.prototype.drawPlayer = function(player: Player, x: number, y: numb
   }
   let tileX = tile * width;
   this.cx.drawImage(playerSprite, tileX, 0, width, height,
-                                   x,     y, width, height);
+                                    x,     y, width, height);
   this.cx.restore();
 };
 
@@ -130,14 +192,17 @@ CanvasDisplay.prototype.drawBackground = function(level: Level) {
     for (let y = yStart; y < yEnd; y++) {
         for (let x = xStart; x < xEnd; x++) { 
             let tile = level.rows[y][x];
+            if (tile == "empty") continue;
+
             let screenX = (x - left) * SCALE;
             let screenY = (y - top) * SCALE;
 
-            if (tile == "empty") this.cx.fillStyle = "rgb(44, 136, 214)";
+            // if (tile == "empty") this.cx.fillStyle = "#545e78";
+            if (tile == "empty") continue;
             else if (tile == "lava") this.cx.fillStyle = "#bf40bf";
             else if (tile == "wall") this.cx.fillStyle = "#2e3440";
 
-            this.cx.fillRect(screenX, screenY, SCALE, SCALE);
+            this.cx.fillRect(screenX, screenY, SCALE + 0.4, SCALE + 0.4);
 
         }
     }

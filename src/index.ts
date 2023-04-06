@@ -2,6 +2,12 @@ import Level from "./Level";
 import State from "./components/State";
 import CanvasDisplay from "./components/CanvasDisplay";
 import GAME_LEVEL from "./media/level"
+import { deepStrictEqual } from "assert";
+
+
+const levelHeader = document.querySelector(".level");
+const lifeHeader = document.querySelector(".lifes");
+
 
 function runAnimation(frameFunc: Function) { 
     let lastTime: number | null = null;
@@ -18,8 +24,10 @@ function runAnimation(frameFunc: Function) {
 }
 
 
-function runLevel(level: Level, Display: CanvasDisplay | any) {
+function runLevel(level: Level, Display: CanvasDisplay | any, levelNumber: number, triesNumber: number) {
     let display = new Display(document.body, level);
+    display.level = levelNumber;
+    display.tries = triesNumber;
     let state: State | any = State.start(level)  ;
     let ending: number = 1;
     let running: string = "yes";
@@ -83,15 +91,19 @@ function trackKeys(keys: any) {
 }
 
 async function runGame(plans: Array<string>, Display: CanvasDisplay | any) {
-    let MAX = 3, level = 0;
-    while (level < plans.length) { 
-        let status = await runLevel(new Level(plans[level]), Display)
-        if (status == 'won') level++;
-        else if (MAX > 0) console.log("You have ", --MAX, " tries left!");
+    let MAX = 2, level = 0;
+    while (level < plans.length) {
+        let status = await runLevel(new Level(plans[level]), Display, level, MAX);
+        if (status == 'won') {
+            level++;
+        }
+        else if (MAX > 0) {
+            --MAX;
+        }
         else {
             console.log("GAME OVER");
             level = 0;
-            MAX = 3;
+            MAX = 2;
         }
     }
     console.log("YOU HAVE WON!");

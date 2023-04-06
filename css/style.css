@@ -5,7 +5,7 @@ html, h1 {
     justify-content: center;
     background-color: #2e3440;
     color: white;
-    font-family:Raleway ;
+    font-family: ubuntu;
     font-size: bold;
 }
 
@@ -15,37 +15,24 @@ html, h1 {
     border-spacing: 0;
 }
 
-
 canvas {
-    border: solid;
---    border-color: #bf40bf;
-    border-color: white;
-    border-radius: 1px;
-    border-width: 2px;
+}
+
+.stat {
+    display: flex;
+    justify-content: center;
+    font-size: 1.2em;
+}
+
+.level {
+    margin-right: 10em;
+}
+.lifes {
+    margin-left: 10em;
 }
 
 .background td {
     padding: 0; 
-}
-
-.lava { 
-    background: rgb(255, 100, 10);
-}
-
-.wall { 
-    background: white;
-}
-
-.actor {
-    position: absolute;
-}
-
-.coin {
-    background: rgb(241, 229, 89);
-}
-
-.player { 
-    background: rgb(64, 64, 64);
 }
 
 .lost .player {

@@ -1,33 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;1,200&family=Ubuntu:wght@300&display=swap');
+html, h1 {
+    margin-top: 3em;
+    display: flex;
+    justify-content: center;
+    background-color: #2e3440;
+    color: white;
+    font-family:ubuntu;
+    font-size: bold;
+}
+
 .background {
     background: rgb(52, 166, 251);
     table-layout: fixed;
     border-spacing: 0;
 }
 
+canvas {
+    margin-top: 1em;
+
+}
+
+.stat {
+    display: flex;
+    justify-content: center;
+    font-size: 1.2em;
+}
+
+.level {
+    margin-right: 10em;
+}
+.lifes {
+    margin-left: 10em;
+}
+
+canvas {
+}
 
 .background td {
     padding: 0; 
 }
 
-.lava { 
-    background: rgb(255, 100, 10);
-}
-
-.wall { 
-    background: white;
-}
-
-.actor {
-    position: absolute;
-}
-
-.coin {
-    background: rgb(241, 229, 89);
-}
-
-.player { 
-    background: rgb(64, 64, 64);
-}
 
 .lost .player {
     background: rgb(160, 64, 64);
