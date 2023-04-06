@@ -99,4 +99,3 @@ async function runGame(plans: Array<string>, Display: CanvasDisplay | any) {
 
 
 runGame(GAME_LEVEL, CanvasDisplay);
-
