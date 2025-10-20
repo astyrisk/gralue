@@ -3,11 +3,22 @@ import State from "./components/State";
 import CanvasDisplay from "./components/CanvasDisplay";
 import GAME_LEVEL from "./media/level"
 import { deepStrictEqual } from "assert";
+import githubImagePath from "../assets/github.png";
 
 
 const levelHeader = document.querySelector(".level");
 const lifeHeader = document.querySelector(".lifes");
+const statDiv = document.querySelector(".stat");
 
+if (statDiv) {
+    const githubLink = document.createElement("a");
+    githubLink.href = "https://github.com/astyrisk/gralue";
+    const githubImage = document.createElement("img");
+    githubImage.src = githubImagePath;
+    githubImage.className = "github-logo";
+    githubLink.appendChild(githubImage);
+    statDiv.appendChild(githubLink);
+}
 
 function runAnimation(frameFunc: Function) { 
     let lastTime: number | null = null;
