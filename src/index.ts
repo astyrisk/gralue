@@ -15,7 +15,8 @@ if (statDiv) {
     githubLink.href = "https://github.com/astyrisk/gralue";
     const githubImage = document.createElement("img");
     githubImage.src = githubImagePath;
-    githubImage.className = "github-logo";
+    githubImage.style.width = "48px";
+    githubImage.style.height = "48px";
     githubLink.appendChild(githubImage);
     statDiv.appendChild(githubLink);
 }
